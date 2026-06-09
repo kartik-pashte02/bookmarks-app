@@ -115,6 +115,11 @@ async function deleteBookmark(id: string) {
 
   fetchBookmarks();
 }
+async function logout() {
+  await supabase.auth.signOut();
+
+  window.location.href = "/login";
+}
 
   useEffect(() => {
     fetchBookmarks();
@@ -144,15 +149,26 @@ async function deleteBookmark(id: string) {
   
   return (
 <div className="max-w-6xl mx-auto p-10">
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold">
-          Welcome Back 👋
-        </h1>
+    <div className="mb-10 flex justify-between items-center">
 
-        <p className="text-zinc-400 mt-2">
-          Manage your personal bookmarks.
-        </p>
-      </div>
+  <div>
+    <h1 className="text-4xl font-bold">
+      Welcome Back 👋
+    </h1>
+
+    <p className="text-zinc-400 mt-2">
+      Manage your personal bookmarks.
+    </p>
+  </div>
+
+  <button
+    onClick={logout}
+    className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg"
+  >
+    Logout
+  </button>
+
+</div>
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800 h-fit">
