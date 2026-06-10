@@ -11,20 +11,29 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [handle, setHandle] = useState("");
 
-  async function handleSignup() {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+async function handleSignup() {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
 
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    alert("Signup Successful! Please Login");
-    router.push("/login");
+  if (error) {
+    alert(error.message);
+    return;
   }
+
+  // 🔥 SEND EMAIL HERE
+  await fetch("/api/send-welcome-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  alert("Signup successful + email sent!");
+  router.push("/login");
+}
 
   return (
     <div className="max-w-md mx-auto mt-20">
